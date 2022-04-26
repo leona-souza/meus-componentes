@@ -1,7 +1,6 @@
 // REACT
 import {
-  useState,
-  useEffect
+  useState
 } from 'react'
 
 // ESTILOS
@@ -12,7 +11,11 @@ import {
   estadoInicialProduto,
   Produto
 } from '../tipos/produto'
+import {
+  meiosDePagamento
+} from '../tipos/pagamento'
 
+// MUI
 import {
   Button,
   FormControl,
@@ -25,6 +28,8 @@ import {
 
 export const Formulario = (): JSX.Element => {
   const [produto, setProduto] = useState<Produto>(estadoInicialProduto)
+  const bandeirasDisponiveis =
+    meiosDePagamento.find(meio => meio.id === 2)?.bandeira
 
   const atualizarProduto = (prop: string, valor: any): void => {
     setProduto(previous => {
@@ -35,10 +40,13 @@ export const Formulario = (): JSX.Element => {
     })
   }
 
-  useEffect(() => console.log(produto), [produto])
-
   return (
-    <Grid container spacing={2}>
+    <Styled.GridContainer
+      container
+      direction='column'
+      spacing={2}
+      style={{ width: '400px' }}
+    >
       <Grid item xs={4}>
         <TextField
           label="Nome"
@@ -61,26 +69,80 @@ export const Formulario = (): JSX.Element => {
         />
       </Grid>
 
-      <Grid item xs={6}>
+      <Grid item xs={2}>
         <FormControl fullWidth>
           <InputLabel id="pagto">Opções de Pagamento</InputLabel>
           <Select
             labelId="pagto"
-            value={1}
+            value={produto.pagamento.id}
             label="Opções de Pagamento"
-            onChange={e => console.log(e)}
+            onChange={e => atualizarProduto(
+              'pagamento',
+              {
+                id: e.target.value,
+                nome: meiosDePagamento
+                  .filter(meio => meio.id === e.target.value)[0].nome
+              }
+            )}
           >
-            <MenuItem value={1}>Ten</MenuItem>
-            <MenuItem value={2}>Twenty</MenuItem>
-            <MenuItem value={3}>Thirty</MenuItem>
+            {
+              meiosDePagamento.map(meio => (
+                <MenuItem
+                  key={meio.id}
+                  value={meio.id}
+                >
+                  {meio.nome}
+                </MenuItem>
+              ))
+            }
           </Select>
         </FormControl>
       </Grid>
-      <Grid item xs={6}></Grid>
+      <Grid item xs={2}>
+        {
+          produto.pagamento.id === 2 &&
+          <FormControl fullWidth>
+          <InputLabel id="bandeiras">Bandeiras</InputLabel>
+          <Select
+            labelId="bandeiras"
+            value={produto.pagamento.bandeira?.id || 0}
+            label="Opções de Pagamento"
+            onChange={e => atualizarProduto(
+              'pagamento',
+              {
+                id: 2,
+                nome: meiosDePagamento
+                  .filter(meio => meio.id === 2)[0].nome,
+                bandeira: {
+                  id: e.target.value,
+                  nome: bandeirasDisponiveis?.filter(
+                    bandeira => bandeira.id === e.target.value
+                  )[0].nome
+                }
+              }
+            )}
+          >
+            {
+              bandeirasDisponiveis?.map(band => (
+                <MenuItem
+                  key={band.id}
+                  value={band.id}
+                >{band.nome}</MenuItem>
+              ))
+            }
+          </Select>
+        </FormControl>
+        }
+      </Grid>
 
       <Styled.Buttons>
-        <Button variant="outlined">Enviar</Button>
+        <Button
+          onClick={(): void => console.log(produto)}
+          variant="outlined"
+        >
+          Cadastrar
+        </Button>
       </Styled.Buttons>
-    </Grid>
+    </Styled.GridContainer>
   )
 }

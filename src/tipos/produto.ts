@@ -1,13 +1,19 @@
+// TIPOS
+import { Pagamento } from './pagamento'
+
 export interface Produto {
   nome: string;
   quantidade: string;
   valor: number;
-  pagamento: string;
+  pagamento: Pagamento;
 }
 
 export const estadoInicialProduto = {
   nome: '',
   quantidade: '',
   valor: 0,
-  pagamento: ''
+  pagamento: {
+    id: 0,
+    nome: 'Nenhum'
+  }
 }
