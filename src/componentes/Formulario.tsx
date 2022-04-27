@@ -18,18 +18,17 @@ import {
 // MUI
 import {
   Button,
-  FormControl,
   Grid,
-  MenuItem,
-  InputLabel,
-  Select,
   TextField
 } from '@mui/material'
+
+// COMPONENTES
+import { FormSelect } from './FormSelect'
 
 export const Formulario = (): JSX.Element => {
   const [produto, setProduto] = useState<Produto>(estadoInicialProduto)
   const bandeirasDisponiveis =
-    meiosDePagamento.find(meio => meio.id === 2)?.bandeira
+    meiosDePagamento.find(meio => meio.id === 2)?.bandeira || []
 
   const atualizarProduto = (prop: string, valor: any): void => {
     setProduto(previous => {
@@ -38,6 +37,34 @@ export const Formulario = (): JSX.Element => {
         [prop]: valor
       }
     })
+  }
+
+  const encontrarNome = (array: any[], id: number): string => {
+    return array.filter(objeto => objeto.id === id)[0].nome
+  }
+
+  const atualizarPagamento = (novoPagamento: number): void => {
+    atualizarProduto(
+      'pagamento',
+      {
+        id: novoPagamento,
+        nome: encontrarNome(meiosDePagamento, novoPagamento)
+      }
+    )
+  }
+
+  const atualizarBandeira = (novaBandeira: number): void => {
+    atualizarProduto(
+      'pagamento',
+      {
+        id: 2,
+        nome: encontrarNome(meiosDePagamento, 2),
+        bandeira: {
+          id: novaBandeira,
+          nome: encontrarNome(bandeirasDisponiveis, novaBandeira)
+        }
+      }
+    )
   }
 
   return (
@@ -70,68 +97,24 @@ export const Formulario = (): JSX.Element => {
       </Grid>
 
       <Grid item xs={2}>
-        <FormControl fullWidth>
-          <InputLabel id="pagto">Opções de Pagamento</InputLabel>
-          <Select
-            labelId="pagto"
-            value={produto.pagamento.id}
-            label="Opções de Pagamento"
-            onChange={e => atualizarProduto(
-              'pagamento',
-              {
-                id: e.target.value,
-                nome: meiosDePagamento
-                  .filter(meio => meio.id === e.target.value)[0].nome
-              }
-            )}
-          >
-            {
-              meiosDePagamento.map(meio => (
-                <MenuItem
-                  key={meio.id}
-                  value={meio.id}
-                >
-                  {meio.nome}
-                </MenuItem>
-              ))
-            }
-          </Select>
-        </FormControl>
+        <FormSelect
+          label="Opções de Pagamento"
+          labelId="pagto"
+          opcoes={meiosDePagamento}
+          valor={produto.pagamento.id}
+          onChange={(e) => atualizarPagamento(e.target.value)}
+        />
       </Grid>
       <Grid item xs={2}>
         {
           produto.pagamento.id === 2 &&
-          <FormControl fullWidth>
-          <InputLabel id="bandeiras">Bandeiras</InputLabel>
-          <Select
+          <FormSelect
+            label="Bandeiras"
             labelId="bandeiras"
-            value={produto.pagamento.bandeira?.id || 0}
-            label="Opções de Pagamento"
-            onChange={e => atualizarProduto(
-              'pagamento',
-              {
-                id: 2,
-                nome: meiosDePagamento
-                  .filter(meio => meio.id === 2)[0].nome,
-                bandeira: {
-                  id: e.target.value,
-                  nome: bandeirasDisponiveis?.filter(
-                    bandeira => bandeira.id === e.target.value
-                  )[0].nome
-                }
-              }
-            )}
-          >
-            {
-              bandeirasDisponiveis?.map(band => (
-                <MenuItem
-                  key={band.id}
-                  value={band.id}
-                >{band.nome}</MenuItem>
-              ))
-            }
-          </Select>
-        </FormControl>
+            opcoes={bandeirasDisponiveis}
+            valor={produto.pagamento.bandeira?.id || 0}
+            onChange={e => atualizarBandeira(e.target.value)}
+          />
         }
       </Grid>
 
