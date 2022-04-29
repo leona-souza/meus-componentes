@@ -127,7 +127,9 @@ export const Formulario = (): JSX.Element => {
                 <MenuItem
                   key={band.id}
                   value={band.id}
-                >{band.nome}</MenuItem>
+                >
+                  {band.nome}
+                </MenuItem>
               ))
             }
           </Select>
