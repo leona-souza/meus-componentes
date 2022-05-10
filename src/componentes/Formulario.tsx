@@ -40,7 +40,7 @@ export const Formulario = (): JSX.Element => {
     })
   }
 
-  const handleSwitchChange = (chave: string, valor: boolean): void => {
+  const atualizarSwitch = (chave: string, valor: boolean): void => {
     atualizarProduto(chave, !produto[chave as keyof Produto])
   }
 
@@ -152,12 +152,12 @@ export const Formulario = (): JSX.Element => {
           <FormControlLabel
             control={<Switch />}
             label="Exclusivo"
-            onChange={() => handleSwitchChange('exclusivo', !produto.exclusivo)}
+            onChange={() => atualizarSwitch('exclusivo', !produto.exclusivo)}
           />
           <FormControlLabel
             control={<Switch />}
             label="Promoção"
-            onChange={() => handleSwitchChange('promocao', !produto.promocao)}
+            onChange={() => atualizarSwitch('promocao', !produto.promocao)}
           />
         </FormControl>
       </Grid>
