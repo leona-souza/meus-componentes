@@ -26,8 +26,13 @@ import {
   TextField
 } from '@mui/material'
 
+// COMPONENTES
+import { CardComum } from '../componentes/CardComum'
+import { CardPromocao } from '../componentes/CardPromocao'
+
 export const Formulario = (): JSX.Element => {
   const [produto, setProduto] = useState<Produto>(estadoInicialProduto)
+  const [produtoCard, setProdutoCard] = useState<Produto | undefined>(undefined)
   const bandeirasDisponiveis =
     meiosDePagamento.find(meio => meio.id === 2)?.bandeira
 
@@ -164,12 +169,21 @@ export const Formulario = (): JSX.Element => {
 
       <Styled.Buttons>
         <Button
-          onClick={(): void => console.log(produto)}
+          onClick={(): void => setProdutoCard(produto)}
           variant="outlined"
         >
           Cadastrar
         </Button>
       </Styled.Buttons>
+
+      {
+        produtoCard && !produto.exclusivo && !produto.promocao &&
+        <CardComum produto={produtoCard} />
+      }
+      {
+        produtoCard && (produto.exclusivo || produto.promocao) &&
+        <CardPromocao produto={produtoCard} />
+      }
     </Styled.GridContainer>
   )
 }
