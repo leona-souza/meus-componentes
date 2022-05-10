@@ -11,18 +11,18 @@ import {
   estadoInicialProduto,
   Produto
 } from '../tipos/produto'
-import {
-  meiosDePagamento
-} from '../tipos/pagamento'
+import { meiosDePagamento } from '../tipos/pagamento'
 
 // MUI
 import {
   Button,
   FormControl,
+  FormControlLabel,
   Grid,
   MenuItem,
   InputLabel,
   Select,
+  Switch,
   TextField
 } from '@mui/material'
 
@@ -40,6 +40,10 @@ export const Formulario = (): JSX.Element => {
     })
   }
 
+  const handleSwitchChange = (chave: string, valor: boolean): void => {
+    atualizarProduto(chave, !produto[chave as keyof Produto])
+  }
+
   return (
     <Styled.GridContainer
       container
@@ -47,26 +51,32 @@ export const Formulario = (): JSX.Element => {
       spacing={2}
       style={{ width: '400px' }}
     >
-      <Grid item xs={4}>
-        <TextField
-          label="Nome"
-          onChange={e => atualizarProduto('nome', e.target.value)}
-          value={produto.nome}
-        />
+      <Grid item xs={12}>
+        <FormControl fullWidth>
+          <TextField
+            label="Nome"
+            onChange={e => atualizarProduto('nome', e.target.value)}
+            value={produto.nome}
+          />
+        </FormControl>
       </Grid>
-      <Grid item xs={4}>
-        <TextField
-          label="Quantidade"
-          onChange={e => atualizarProduto('quantidade', e.target.value)}
-          value={produto.quantidade}
-        />
+      <Grid item xs={12}>
+        <FormControl fullWidth>
+          <TextField
+            label="Quantidade"
+            onChange={e => atualizarProduto('quantidade', e.target.value)}
+            value={produto.quantidade}
+          />
+        </FormControl>
       </Grid>
-      <Grid item xs={4}>
-        <TextField
-          label="Valor"
-          onChange={e => atualizarProduto('valor', e.target.value)}
-          value={produto.valor}
-        />
+      <Grid item xs={12}>
+        <FormControl fullWidth>
+          <TextField
+            label="Valor"
+            onChange={e => atualizarProduto('valor', e.target.value)}
+            value={produto.valor}
+          />
+        </FormControl>
       </Grid>
 
       <Grid item xs={2}>
@@ -135,6 +145,21 @@ export const Formulario = (): JSX.Element => {
           </Select>
         </FormControl>
         }
+      </Grid>
+
+      <Grid item xs={2}>
+        <FormControl>
+          <FormControlLabel
+            control={<Switch />}
+            label="Exclusivo"
+            onChange={() => handleSwitchChange('exclusivo', !produto.exclusivo)}
+          />
+          <FormControlLabel
+            control={<Switch />}
+            label="Promoção"
+            onChange={() => handleSwitchChange('promocao', !produto.promocao)}
+          />
+        </FormControl>
       </Grid>
 
       <Styled.Buttons>
