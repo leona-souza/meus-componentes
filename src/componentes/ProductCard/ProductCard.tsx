@@ -13,9 +13,10 @@ interface ProductCardProps {
 
 export const ProductCard = (props: ProductCardProps): JSX.Element => {
   const { produto } = props
+  const fontSize = produto.exclusivo ? 32 : 24
   return (
     <Card variant="outlined">
-      <Typography sx={{ fontSize: 28 }} color="text.primary" gutterBottom>
+      <Typography sx={{ fontSize }} color="text.primary" gutterBottom>
         {produto.exclusivo && `EXCLUSIVO: `}{produto.nome}
       </Typography>
       <Typography sx={{ fontSize: 18 }} color="text.secondary" gutterBottom>
