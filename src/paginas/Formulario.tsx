@@ -11,19 +11,19 @@ import {
   estadoInicialProduto,
   Produto
 } from '../tipos/produto'
-import {
-  meiosDePagamento
-} from '../tipos/pagamento'
+import { meiosDePagamento } from '../tipos/pagamento'
 
 // MUI
 import {
   Button,
+  FormControl,
   Grid,
   TextField
 } from '@mui/material'
 
 // COMPONENTES
-import { FormSelect } from './FormSelect'
+import { FormSelect } from '../componentes/FormSelect/FormSelect'
+import { FormSwitch } from '../componentes/FormSwitch/FormSwitch'
 
 export const Formulario = (): JSX.Element => {
   const [produto, setProduto] = useState<Produto>(estadoInicialProduto)
@@ -67,6 +67,10 @@ export const Formulario = (): JSX.Element => {
     )
   }
 
+  const atualizarSwitch = (chave: string): void => {
+    atualizarProduto(chave, !produto[chave as keyof Produto])
+  }
+
   return (
     <Styled.GridContainer
       container
@@ -75,25 +79,31 @@ export const Formulario = (): JSX.Element => {
       style={{ width: '400px' }}
     >
       <Grid item xs={4}>
-        <TextField
-          label="Nome"
-          onChange={e => atualizarProduto('nome', e.target.value)}
-          value={produto.nome}
-        />
+        <FormControl fullWidth>
+          <TextField
+            label="Nome"
+            onChange={e => atualizarProduto('nome', e.target.value)}
+            value={produto.nome}
+          />
+        </FormControl>
       </Grid>
       <Grid item xs={4}>
-        <TextField
-          label="Quantidade"
-          onChange={e => atualizarProduto('quantidade', e.target.value)}
-          value={produto.quantidade}
-        />
+        <FormControl fullWidth>
+          <TextField
+            label="Quantidade"
+            onChange={e => atualizarProduto('quantidade', e.target.value)}
+            value={produto.quantidade}
+          />
+        </FormControl>
       </Grid>
       <Grid item xs={4}>
-        <TextField
-          label="Valor"
-          onChange={e => atualizarProduto('valor', e.target.value)}
-          value={produto.valor}
-        />
+        <FormControl fullWidth>
+          <TextField
+            label="Valor"
+            onChange={e => atualizarProduto('valor', e.target.value)}
+            value={produto.valor}
+          />
+        </FormControl>
       </Grid>
 
       <Grid item xs={2}>
@@ -116,6 +126,19 @@ export const Formulario = (): JSX.Element => {
             onChange={e => atualizarBandeira(e.target.value)}
           />
         }
+      </Grid>
+
+      <Grid item xs={2}>
+        <FormControl>
+          <FormSwitch
+            label="Exclusivo"
+            onChange={() => atualizarSwitch('exclusivo')}
+          />
+          <FormSwitch
+            label="Promoção"
+            onChange={() => atualizarSwitch('promocao')}
+          />
+        </FormControl>
       </Grid>
 
       <Styled.Buttons>
