@@ -24,9 +24,11 @@ import {
 // COMPONENTES
 import { FormSelect } from '../componentes/FormSelect/FormSelect'
 import { FormSwitch } from '../componentes/FormSwitch/FormSwitch'
+import { ProductCard } from '../componentes/ProductCard/ProductCard'
 
 export const Formulario = (): JSX.Element => {
   const [produto, setProduto] = useState<Produto>(estadoInicialProduto)
+  const [produtoCard, setProdutoCard] = useState<Produto | undefined>(undefined)
   const bandeirasDisponiveis =
     meiosDePagamento.find(meio => meio.id === 2)?.bandeira || []
 
@@ -76,7 +78,7 @@ export const Formulario = (): JSX.Element => {
       container
       direction='column'
       spacing={2}
-      style={{ width: '400px' }}
+      style={{ width: '500px' }}
     >
       <Grid item xs={4}>
         <FormControl fullWidth>
@@ -143,12 +145,23 @@ export const Formulario = (): JSX.Element => {
 
       <Styled.Buttons>
         <Button
-          onClick={(): void => console.log(produto)}
+          onClick={(): void => setProdutoCard(produto)}
           variant="outlined"
         >
           Cadastrar
         </Button>
+        <Button
+          onClick={(): void => setProdutoCard(undefined)}
+          variant="contained"
+        >
+          Excluir
+        </Button>
       </Styled.Buttons>
+
+      {
+        produtoCard &&
+        <ProductCard produto={produto} />
+      }
     </Styled.GridContainer>
   )
 }
