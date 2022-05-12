@@ -115,7 +115,7 @@ export const Formulario = (): JSX.Element => {
           labelId="pagto"
           opcoes={meiosDePagamento}
           valor={produto.pagamento.id}
-          onChange={(e) => atualizarPagamento(e.target.value)}
+          onChange={e => atualizarPagamento(e.target.value)}
         />
       </Grid>
       <Grid item xs={2}>
