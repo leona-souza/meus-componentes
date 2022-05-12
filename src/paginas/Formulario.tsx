@@ -174,14 +174,20 @@ export const Formulario = (): JSX.Element => {
         >
           Cadastrar
         </Button>
+        <Button
+          onClick={(): void => setProdutoCard(undefined)}
+          variant="contained"
+        >
+          Excluir
+        </Button>
       </Styled.Buttons>
 
       {
-        produtoCard && !produto.exclusivo && !produto.promocao &&
+        produtoCard && !produtoCard.exclusivo && !produtoCard.promocao &&
         <CardComum produto={produtoCard} />
       }
       {
-        produtoCard && (produto.exclusivo || produto.promocao) &&
+        produtoCard && (produtoCard.exclusivo || produtoCard.promocao) &&
         <CardPromocao produto={produtoCard} />
       }
     </Styled.GridContainer>

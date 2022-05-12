@@ -13,6 +13,7 @@ interface CardComumProps {
 
 export const CardComum = (props: CardComumProps): JSX.Element => {
   const { produto } = props
+
   return (
     <Card variant="outlined">
       <Typography sx={{ fontSize: 24 }} color="text.primary" gutterBottom>
