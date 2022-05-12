@@ -74,8 +74,6 @@ export const Formulario = (): JSX.Element => {
     atualizarProduto(chave, !produto[chave as keyof Produto])
   }
 
-  useEffect(() => console.log(produtoCard), [produtoCard])
-
   return (
     <Styled.GridContainer
       container
