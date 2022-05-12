@@ -1,6 +1,7 @@
 // REACT
 import {
-  useState
+  useState,
+  useEffect
 } from 'react'
 
 // ESTILOS
@@ -72,6 +73,8 @@ export const Formulario = (): JSX.Element => {
   const atualizarSwitch = (chave: string): void => {
     atualizarProduto(chave, !produto[chave as keyof Produto])
   }
+
+  useEffect(() => console.log(produtoCard), [produtoCard])
 
   return (
     <Styled.GridContainer
@@ -160,7 +163,12 @@ export const Formulario = (): JSX.Element => {
 
       {
         produtoCard &&
-        <ProductCard produto={produto} />
+        <ProductCard
+          corFonte="white"
+          corFundo="red"
+          tamanhoTitulo={26}
+          produto={produtoCard}
+        />
       }
     </Styled.GridContainer>
   )
