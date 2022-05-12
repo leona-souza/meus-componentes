@@ -117,38 +117,38 @@ export const Formulario = (): JSX.Element => {
         {
           produto.pagamento.id === 2 &&
           <FormControl fullWidth>
-          <InputLabel id="bandeiras">Bandeiras</InputLabel>
-          <Select
-            labelId="bandeiras"
-            value={produto.pagamento.bandeira?.id || 0}
-            label="Opções de Pagamento"
-            onChange={e => atualizarProduto(
-              'pagamento',
-              {
-                id: 2,
-                nome: meiosDePagamento
-                  .filter(meio => meio.id === 2)[0].nome,
-                bandeira: {
-                  id: e.target.value,
-                  nome: bandeirasDisponiveis?.filter(
-                    bandeira => bandeira.id === e.target.value
-                  )[0].nome
+            <InputLabel id="bandeiras">Bandeiras</InputLabel>
+            <Select
+              labelId="bandeiras"
+              value={produto.pagamento.bandeira?.id || 0}
+              label="Opções de Pagamento"
+              onChange={e => atualizarProduto(
+                'pagamento',
+                {
+                  id: 2,
+                  nome: meiosDePagamento
+                    .filter(meio => meio.id === 2)[0].nome,
+                  bandeira: {
+                    id: e.target.value,
+                    nome: bandeirasDisponiveis?.filter(
+                      bandeira => bandeira.id === e.target.value
+                    )[0].nome
+                  }
                 }
+              )}
+            >
+              {
+                bandeirasDisponiveis?.map(band => (
+                  <MenuItem
+                    key={band.id}
+                    value={band.id}
+                  >
+                    {band.nome}
+                  </MenuItem>
+                ))
               }
-            )}
-          >
-            {
-              bandeirasDisponiveis?.map(band => (
-                <MenuItem
-                  key={band.id}
-                  value={band.id}
-                >
-                  {band.nome}
-                </MenuItem>
-              ))
-            }
-          </Select>
-        </FormControl>
+            </Select>
+          </FormControl>
         }
       </Grid>
 
